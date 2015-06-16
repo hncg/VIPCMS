@@ -7,7 +7,22 @@ class IndexController extends Controller {
     	// $this->show();  		
     		$this->display();
     }
-
-    
-
+    public function logined(){
+    	$this->display();
+    }
+    public function about(){
+    	$this->display();
+    }
+    public function connect(){
+    	$this->display();
+    }
+    public function feedback(){
+    	$this->display();
+    }
+    public function upgrade(){
+    	$this->display();
+    }
+    public function using(){
+    	$this->display();
+    }
 }
