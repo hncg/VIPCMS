@@ -52,18 +52,18 @@
         <h1>欢迎进入本会员管理系统</h1>
       </div>
       <!--登录框-->
-     <form class="form-signin ">
-	        <label for="inputEmail" class="sr-only">账号</label>
-	        <input type="email" id="inputEmail" class="form-control" placeholder="账号" required autofocus>
+     <div class="form-signin " type="post">
+	        <label for="inputEmail" class="sr-only" >账号</label>
+	        <input class="form-control" placeholder="账号" required autofocus id="username">
 	        <label for="inputPassword" class="sr-only">密码</label>
-	        <input type="password" id="inputPassword" class="form-control" placeholder="密码" required>
+	        <input type="password" class="form-control" placeholder="密码" required id="password">
 	        <div class="checkbox">
 	          <label>
-	            <input type="checkbox" value="remember-me"> 下次自动登录
+	            <input type="checkbox" value="remember-me" id="remember"> 下次自动登录
 	          </label>
 	        </div>
-	        <button class="btn btn-sg btn-primary btn-block" type="submit">登录</button>
-      	</form>
+	        <button class="btn btn-sg btn-primary btn-block" id="logining" type="submit">登录</button>
+      	</div>
     </div>
 
     <div class="container">
@@ -100,7 +100,11 @@
       </div>
 
     </div>
+<script type="text/javascript">
+  var logining = "{:U('logining','','')}";
+</script>
 <script type="text/javascript" src="__PUBLIC__/js/Jquery/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/index.js"></script>
 </body>
 </html>
