@@ -1,9 +1,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>会员管理系统</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <title>会员管理系统</title>
+
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Publicmodel_index.css">
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/home_logined.css">
+
+<!--  <script type="text/javascript" src="__PUBLIC__/js/ie-warning.js"></script>
+-->
 </head>
 <body>
+<include file="Publicmodel:index_logined" />
+<!-- 正文-->
+<div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading">会员显示界面</div>
+      <div class="panel-body">
+        <p>会员的基本信息都显示在这里，可以在这里对会员进行增、删、改、查操作。</p>
+        <div class="row">
+        	<div class="col-lg-3">
+		     <div class="input-group">
+		      <input type="text" class="form-control" placeholder="会员姓名或卡号或手机号码进行查找" >
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Go!</button>
+		      </span>
+		    </div><!-- /input-group -->
+		 </div>
 
+		 </div>
+			<div class="form-inline ones_info" >
+			  <div class="form-group">
+			    <label class="sr-only" >会员卡号</label>
+			    <input type="email" class="form-control" id="id_card" placeholder="会员卡号">
+			  </div>
+			  <div class="form-group">
+			    <label class="sr-only" >姓名</label>
+			    <input type="password" class="form-control" id="name" placeholder="姓名">
+			  </div>
+			  <div class="form-group">
+			    <label class="sr-only" >Password</label>
+			    <input type="password" class="form-control" id="phone_number" placeholder="手机号码">
+			  </div>
+			  <div class="form-group">
+			    <label class="sr-only" >最后一次消费时间</label>
+			    <input type="password" class="form-control" id="lastconsume_time" placeholder="最后一次消费时间">
+			  </div>
+			  <div class="form-group">
+			    <label class="sr-only" >余额</label>
+			    <input type="password" class="form-control" id="balance" placeholder="余额">
+			  </div>
+			  <button type="submit" class="btn btn-default">消费</button>
+			  <button type="submit" class="btn btn-default">修改</button>
+			  <button type="submit" class="btn btn-default">删除</button>
+			</div>
+
+		 </div>
+      </div>
+
+      <!-- Table -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>会员卡号</th>
+            <th>姓名</th>
+            <th>手机号码</th>
+            <th>最后一次消费时间</th>
+            <th>余额</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>12122</td>
+            <td>Otto</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+        </tbody>
+      </table>
+  		
+    </div>
+        <nav style="text-align:center;">
+      <ul class="pagination" >
+        <li>
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">«</span>
+          </a>
+        </li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li>
+          <a href="#" aria-label="Next">
+            <span aria-hidden="true">»</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+<script type="text/javascript">
+  var logining = "{:U('logining','','')}";
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/Jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/verify.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/index.js"></script>
 </body>
 </html>

@@ -4,8 +4,13 @@ use Think\Controller;
 header("Content-type:text/html;charset=utf-8");
 class IndexController extends Controller {
     public function index(){
-    	// $this->show();  		
-		$this->show();
+    	// $this->show(); 
+    	if($_SESSION['username']){
+	    	$this->display('logined');  		
+    	}else{
+    		$this->display();
+    	} 		
+		
     }
     public function logined(){
     	$this->display();
@@ -13,18 +18,23 @@ class IndexController extends Controller {
     public function logining(){
     	$user["username"] = I("username");
     	$user["password"] = I("password");
-    	if(I("remember")){
-	   		$user["remember"] = I("remember");
-    	}
-   		else{
-	   		$user["remember"] = I("remember");
+    	$remember  = I("remember");//是否记住登录
+		$model = D("User");
+		//查找此用户    
+		$result = $model->where(array(
+			"username"=>"$user[username]"
+			))->find();
+   		if($result){
+   		$this->ajaxReturn(array("status"=>"0"),'json');//账号已经存在,不能用此账号注册
+   		}else{
+   		$register = $model->add($user);
+   		if($register){
+   			$_SESSION['username'] = $register;
+	   		$this->ajaxReturn(array("status"=>"1"),'json');//账号不存在,注册成功
    		}
-		$model = D("User");    
-   		$result = $model->where("_id"=="q")->select();
-   		if($result)
-   		$this->ajaxReturn(array($result),'json');//账号已经存在
-   		else
-   		$this->ajaxReturn(array($result),'json');//账号不存在
+	   	else
+	   		$this->ajaxReturn(array("status"=>"-1"),'json');//数据插入失败,注册失败
+   		}	
 
     }
     public function about(){
