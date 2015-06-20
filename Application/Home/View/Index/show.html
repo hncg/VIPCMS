@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <title>会员管理系统</title>
+
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Publicmodel_index.css">
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/logined.css">
+
+<!--  <script type="text/javascript" src="__PUBLIC__/js/ie-warning.js"></script>
+-->
+</head>
+<body>
+<include file="Publicmodel:index_logined" />
+<div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li ><a href="#">会员消费 <span class="sr-only">(当前)</span></a></li>
+            <li class="active"><a href="#">会员一览</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+          <h4 class="sub-header">所有会员的基本信息都显示在这里</h4>
+       		<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>卡号</th>
+                  <th>姓名</th>
+                  <th>手机号码</th>
+                  <th>最后一次消费时间</th>
+                  <th>余额</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>1</th>
+                  <td>陈刚</td>
+                  <td>13873200553</td>
+                  <td>2015-6-20</td>
+                  <td>20.0</td>
+                </tr>
+              
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+
+<script type="text/javascript" src="__PUBLIC__/js/Jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+</body>
+</html>
