@@ -57,6 +57,9 @@ class IndexController extends Controller {
     	$this->display();
     }
     public function sign_out(){
-    	
+        unset($_SESSION['_id']);
+        session_unset();
+    	session_destroy();
+        $this->redirect('index');
     }
 }

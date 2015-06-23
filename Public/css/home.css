@@ -7,6 +7,9 @@
 	padding: 15px;
 	margin: 0px auto; 
 }
+.form-signin input{
+	margin-bottom: 15px;
+}
 .slide{
 background: url("../img/slide.jpg");
 min-height: 400px;
