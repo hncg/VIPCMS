@@ -1,8 +1,11 @@
 <?php
 return array(
 	//'配置项'=>'配置值'
+// 'URL_PARAMS_BIND'       =>  true, // URL变量绑定到操作方法作为参数
+// 'URL_PARAMS_BIND_TYPE'  =>  1, // 设置参数绑定按照变量顺序绑定
+'URL_HTML_SUFFIX'=>'',
 'URL_CASE_INSENSITIVE'=>'true',//不区分大小写
-'URL_MODEL'=>'2',
+'URL_MODEL'=>'2',//URL模式
 //数据库配置信息
 'DB_TYPE'   => 'mongo', // 数据库类型
 'DB_HOST'   => 'localhost', // 服务器地址

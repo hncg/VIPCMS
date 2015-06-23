@@ -1,9 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>注册页面</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <title>会员管理系统</title>
+
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/Publicmodel_index.css">
+  <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/home.css">
+
+<!--  <script type="text/javascript" src="__PUBLIC__/js/ie-warning.js"></script>
+-->
 </head>
 <body>
+<include file="Publicmodel:index_register" />
+<!-- 正文-->
+<div class="slide">
+      <div class="main">
+        <h1>欢迎进入本会员管理系统</h1>
+      </div>
+      <!--登录框-->
+     <div class="form-signin " type="post">
+          <div class="alert-xs alert-danger" style="display:none"></div>
+	        <label for="inputEmail" class="sr-only" >账号</label>
+	        <input class="form-control" placeholder="账号" required autofocus id="username">
+	        <label for="inputPassv word" class="sr-only">密码</label>
+	        <input type="password" class="form-control" placeholder="密码" required id="password">
+	        <div class="checkbox">
+	          <label>
+	            <input type="checkbox" value="remember-me" id="remember"> 下次自动登录
+	          </label>
+	        </div>
+	        <button class="btn btn-sg btn-primary btn-block" id="logining" type="submit">登录</button>
+      	</div>
+    </div>
 
+    <div class="container">
+    	<h2 style="text-align:center;">
+    		为什么喜欢我们的会员系统?
+    	</h2>
+      <div class="row marketing">
+        <div class="col-lg-6">
+          <div class="icon-circle">
+          	<span class="glyphicon glyphicon-ok"></span>
+          </div>
+          <p class="intro">审查修改,评论行代码,报告问题,计划未来的项目讨论的工具。</p>
+
+           <div class="icon-circle">
+          	<span class="glyphicon glyphicon-search"></span>
+          </div>
+          <p class="intro">与世界分享您的系统,得到反馈,导致数以百万计的存储库在系统上。</p>
+
+        </div>
+
+          <div class="col-lg-6">
+          <div class="icon-circle">
+          	<span class="glyphicon glyphicon-leaf"></span>
+          </div>
+          <p class="intro">工作与项目合作者或团队的组织人账户轻松交流。</p>
+
+           <div class="icon-circle">
+          	<span class="glyphicon glyphicon-flash"></span>
+          </div>
+          <p class="intro">发现与会员集成应用程序和工具来帮助你和你的团队构建软件更好,在一起。</p>
+
+        </div>
+
+      </div>
+
+    </div>
+<script type="text/javascript">
+  var logining = "{:U('logining','','')}";
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/Jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/verify.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/Cookie.js"></script>
 </body>
 </html>

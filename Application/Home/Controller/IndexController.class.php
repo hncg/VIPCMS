@@ -5,12 +5,11 @@ header("Content-type:text/html;charset=utf-8");
 class IndexController extends Controller {
     public function index(){
     	// $this->show(); 
-    	if($_SESSION['_id']){
-	    	$this->display('logined');  		
+		if($_SESSION['_id']){
+    	$this->display('logined');  		
     	}else{
     		$this->display();
-    	} 		
-		
+    	}	
     }
     public function logined(){
     	$this->display();
@@ -27,35 +26,15 @@ class IndexController extends Controller {
     	if($result){
     		//账号密码验证完成,登陆成功
    			if($remember)
-   			$_COOKIE['_id'] = $result["_id"];
+   			setcookie("_id",md5($result["_id"]),time()+3600*24*30,'/');
    			$_SESSION["_id"] = $result["_id"];
 	   		$this->ajaxReturn(array("status"=>"1"),'json');
    		}else{//账号或者密码错误
 	   		$this->ajaxReturn(array("status"=>"0"),'json');
    		}
     }
-    public function register(){
-    	$user["username"] = I("username");
-    	$user["password"] = I("password");
-    	$remember  = I("remember");//是否记住登录
-		$model = D("User");
-		//查找此用户    
-		$result = $model->where(array(
-			"username"=>"$user[username]"
-			))->find();
-   		if($result){
-   		$this->ajaxReturn(array("status"=>"0"),'json');//账号已经存在,不能用此账号注册
-   		}else{
-   		$register = $model->add($user);
-   		if($register){
-   			$_SESSION['username'] = $register;
-	   		$this->ajaxReturn(array("status"=>"1"),'json');//账号不存在,注册成功
-   		}
-	   	else
-	   		$this->ajaxReturn(array("status"=>"-1"),'json');//数据插入失败,注册失败
-   		}	
+ 
 
-    }
     public function about(){
     	$this->display();
     }
