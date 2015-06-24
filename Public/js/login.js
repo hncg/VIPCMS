@@ -1,9 +1,18 @@
 var debug=true;
-$("#logining").click(function(){
+$("#login").click(function(){
 	username = $("#username").val();
 	password = $("#password").val();
 	remember = $("#remember").prop("checked");
-	// if(!isUsername(username))//账号或者密码格式不对
+	if(!isUsername(username)){//账号式不对 
+		$(".form-signin .alert-danger").text("账号格式不对");
+		$(".form-signin .alert-danger").show(1000);
+		return 0;
+	}
+	if(!isPassword(password)){//密码格式不对
+		$(".form-signin .alert-danger").text("密码格式不对");
+		$(".form-signin .alert-danger").show(1000);
+		return 0;
+	}
 	bnt = $(this);
 	bnt.text("登录中...");
 	bnt.prop("disabled",true);

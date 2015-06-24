@@ -20,26 +20,31 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li ><a href="#">会员消费 <span class="sr-only">(当前)</span></a></li>
-            <li class="active"><a href="#">会员新增</a></li>
-            <li><a href="#">会员一览</a></li>
+            <li ><a href="{:U('logined','','')}">会员消费 <span class="sr-only">(当前)</span></a></li>
+            <li class="active"><a href="{:U('add','','')}">会员新增</a></li>
+            <li><a href="{:U('','','')}">会员一览</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-
           <h4 class="sub-header">这里将新的会员信息录入系统中</h4>
           <div class="form-inline ones_info" >
-          <input type="email" class="form-control" class="id_card" placeholder="会员卡号">
-          <input type="password" class="form-control" clas="name" placeholder="姓名">
-          <input type="password" class="form-control" class="phone_number" placeholder="手机号码">
-          <input type="password" class="form-control" class="balance" placeholder="余额">
+          <input  class="form-control" id="name" placeholder="姓名" maxlength="32" >
+          <input  class="form-control" id="phone_number" placeholder="手机号码" maxlength="11">
+          <input  class="form-control" id="balance" placeholder="金额/元" maxlength="6">
           </div>
-          <button type="submit" class="btn btn-default" >增加</button>
-        </div>
+          <button type="submit" class="btn btn-default" id="add">增加</button>
+            <div id="hid">
+             <div id="alert_info">
+             </div>
+           </div>
+         </div>
       </div>
     </div>
-
+<script type="text/javascript">
+  var add="{:U('do_add','','')}";
+</script>
 <script type="text/javascript" src="__PUBLIC__/js/Jquery/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/curd.js"></script>
 </body>
 </html>

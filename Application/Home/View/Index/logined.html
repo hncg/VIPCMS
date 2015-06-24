@@ -18,43 +18,42 @@
 <include file="Publicmodel:index_logined" />
 <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">会员消费 <span class="sr-only">(当前)</span></a></li>
-            <li><a href="#">会员新增</a></li>
-            <li><a href="#">会员一览</a></li>
+            <li class="active"><a href="{:U('logined','','')}">会员消费 <span class="sr-only">(当前)</span></a></li>
+            <li ><a href="{:U('add','','')}">会员新增</a></li>
+            <li><a href="{:U('','','')}">会员一览</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-          <h4 class="sub-header">会员的基本信息都显示在这里，可以在这里对会员进行增、删、改、查操作。</h4>
+          <h4 class="sub-header">会员的基本信息都显示在这里，可以在这里对会员进行删、改、查操作。</h4>
           <div class="panel-body">
           <div class="row">
             <div class="col-lg-4" style="padding-left:0px;">
            <div class="input-group">
-            <input type="text" class="form-control" placeholder="输入会员卡号或姓名或手机号码进行查找" >
+            <input type="text" class="form-control" id="condisions"  placeholder="输入会员卡号或姓名或手机号码进行查找" >
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Go!</button>
+              <button class="btn btn-default" type="button" id="consume">查找</button>
             </span>
           </div><!-- /input-group -->
          </div>
          </div>
        </div>
-          <div class="form-inline ones_info" >
-          <input  class="form-control" class="id_card" placeholder="会员卡号">
-          <input  class="form-control" clas="name" placeholder="姓名">
-          <input  class="form-control" class="phone_number" placeholder="手机号码">
-          <input  class="form-control" class="lastconsume_time" placeholder="最后一次消费时间">
-          <input  class="form-control" class="balance" placeholder="余额">
-          </div>
-          <button type="submit" class="btn btn-default" >消费</button>
-          <button type="submit" class="btn btn-default">修改</button>
-          <button type="submit" class="btn btn-default">删除</button>
+       <div id="hid">
+         
+       </div>
+       <div id="alert_info">
+           
+       </div>
         </div>
       </div>
     </div>
-
+<script type="text/javascript">
+  var find ="{:U('Index/find','','')}"
+</script>
 <script type="text/javascript" src="__PUBLIC__/js/Jquery/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/curd.js"></script>
 </body>
 </html>

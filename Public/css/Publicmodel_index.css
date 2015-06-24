@@ -2,3 +2,7 @@ body{
 padding-top: 50px;
 
 }
+.underlines{
+	margin-top: 10px;
+	  border-top: 1px dashed  #dbd;
+}

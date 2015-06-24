@@ -18,6 +18,21 @@ function delCk(name){
     if(getCk(name))
     document.cookie = name + "="+ getCk(name) + ";expires=" + exp.toGMTString();
 }
-//getCk("username");
-// setCk("us","us");
-delCk("cg");
+function isUsername(username){
+	reg = /[\u4e00-\u9fa5]{2,16}|\w{2,32}/;//任意英文字母数字和中文
+	if(!reg.test(username) ||username=='undefined'){
+		return false;//账号格式不对	
+	}else{
+		return true;
+	}
+
+}
+function isPassword(password){
+	reg = /\w{2,32}/;//任意英文
+	if(!reg.test(password)){
+		return false;	//密码格式不对
+	}else{
+		return true;
+	}
+
+}
