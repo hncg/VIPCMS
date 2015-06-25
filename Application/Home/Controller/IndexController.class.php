@@ -3,6 +3,7 @@ namespace Home\Controller;
 use Think\Controller;
 header("Content-type:text/html;charset=utf-8");
 class IndexController extends Controller {
+
     public function index(){
         if(I("cookie._id")){//记住密码，以后再添加账号密码验证
             session("_id",I("cookie._id"));
@@ -23,7 +24,9 @@ class IndexController extends Controller {
         }
     }
     public function login(){
-    	$user["username"] = I("username");
+        if(!IS_AJAX) return 0;//不是ajax提交
+    	
+        $user["username"] = I("username");
     	$user["password"] = I("password");
     	$remember  = I("remember");//是否记住登录
     	$model = D("User");
@@ -34,7 +37,7 @@ class IndexController extends Controller {
     	if($result){
     		//账号密码验证完成,登陆成功
    			if($remember)//是否记住密码
-   			setcookie("_id",md5($result["_id"]),time()+3600*24*30,'/');
+   			setcookie("_id",$result["_id"],time()+3600*24*30,'/');
    			$_SESSION["_id"] = $result["_id"];
 	   		$this->ajaxReturn(array("status"=>"1"),'json');
    		}else{//账号或者密码错误
@@ -62,6 +65,8 @@ class IndexController extends Controller {
     	$this->display();
     }
     public function find(){
+        if(!IS_AJAX) return 0;//不是ajax提交
+
         $condisions = I("condisions");
         $model = D("vips");
         $map['vip_phone|vip_name|_id']=$condisions;
@@ -80,12 +85,13 @@ class IndexController extends Controller {
         $this->show();
     }
     public function do_add(){
+        if(!IS_AJAX) return 0;//不是ajax提交
         $model = D("vips");
         $user["vip_name"] = I("post.name");//姓名
         $user["admin_id"] = I('session._id');//管理员id
         $user["vip_phone"] = I("post.phone");//手机号码
-        $user["vip_balance"] = I("post.balance");//余额
-        $user["last_consume"] = time();//最后一次消费时间
+        $user["vip_balance"] = (int)I("post.balance");//余额
+        $user["last_consume"] = date("y-m-d H:i:s",time());//最后一次消费时间
         $result = $model->add($user);
         if($result){//增加成功
             $this->ajaxReturn(array("status"=>1,
@@ -101,5 +107,27 @@ class IndexController extends Controller {
         session_unset();
     	session_destroy();
         $this->redirect('index');
+    }
+    public function consume(){
+        if(!IS_AJAX) return 0;//不是ajax提交
+        $modul_admin = D("user");
+        $modul_admin->where('_id='.I("session._id"))->getField("default");
+        $balance = I("post.balance");
+        $user_id = I("post.user_id");
+        $model = D("vips");
+        $result = $model->where('_id=1')->setInc("vip_balance",10);
+        if($result){//更新成功
+            $this->ajaxReturn(array("status"=>true));
+        }else{
+            $this->ajaxReturn(array("status"=>false));
+        }
+    }
+    public function update(){
+        if(!IS_AJAX) return 0;//不是ajax提交
+        
+    }
+    public function del(){
+        if(!IS_AJAX) return 0;//不是ajax提交
+        
     }
 }

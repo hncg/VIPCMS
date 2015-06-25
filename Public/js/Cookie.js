@@ -10,13 +10,15 @@ function getCk(objname){
 function setCk(name,value){
     var exp = new Date();
     exp.setTime(exp.getTime() +3600*24*30);//过期时间一个月
-    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toUTCString()+"; path=/";//path特别重要
 }
 function delCk(name){
     var exp = new Date();
     exp.setTime(exp.getTime() -3600);
-    if(getCk(name))
-    document.cookie = name + "="+ getCk(name) + ";expires=" + exp.toGMTString();
+    if(getCk(name)){
+    document.cookie = name + "="+ '' + ";expires=" + exp.toUTCString()+"; path=/";
+	console.log(document.cookie);  	
+    }
 }
 function isUsername(username){
 	reg = /[\u4e00-\u9fa5]{2,16}|\w{2,32}/;//任意英文字母数字和中文
