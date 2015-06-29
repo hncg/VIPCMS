@@ -65,19 +65,34 @@ class IndexController extends Controller {
     	$this->display();
     }
     public function find(){
-        if(!IS_AJAX) return 0;//不是ajax提交
+        if(!IS_AJAX || !I('session._id')) return 0;//不是ajax提交
 
         $condisions = I("condisions");
         $model = D("vips");
-        $map['vip_phone|vip_name|_id']=$condisions;
-        $map1['_id']=(int)$condisions;
-        $result = $model->where($map)->select();
-        $result1 = $model->where($map1)->select();
-        $result = $result?$result:$result1;
-        $this->ajaxReturn(array(
+        $map['id_number']=(int)$condisions;
+        $map['admin_id']=(int)I('session._id');
+        $result = $model->where($map)->select();//卡号查询
+         if($result){
+             $this->ajaxReturn(array(
             'status'=>1,
             'users'=>$result,
             ),'json');
+         }else{
+            $map1['vip_phone|vip_name']=$condisions;
+            $map1['admin_id']=(int)I('session._id');
+            $result1 = $model->where($map1)->select();
+            if($result1){
+                   $this->ajaxReturn(array(
+                    'status'=>1,
+                    'users'=>$result1,
+                    ),'json');
+            }else{
+                   $this->ajaxReturn(array(
+                    'status'=>0,
+                    // 'users'=>$result,
+                    ),'json');
+            }
+         }
     }
 
     public function add(){
@@ -85,17 +100,35 @@ class IndexController extends Controller {
         $this->show();
     }
     public function do_add(){
-        if(!IS_AJAX) return 0;//不是ajax提交
+        if(!IS_AJAX || !I('session._id')) return 0;//不是ajax提交
         $model = D("vips");
+        $map_repeat['admin_id'] = (int)I('session._id');
+        $map_repeat['vip_phone'] = I('post.phone');
+        $exist = $model->where($map_repeat)->find();//是否存在这个手机号码
+        if($exist){
+            $this->ajaxReturn(array("status"=>2,//此手机号码已经存在,不能添加
+                ));
+            return 0;
+        }
+        $map['admin_id'] =(int)I('session._id'); 
+        $id_number =$model->where($map)->order('_id desc')->getField('id_number'); 
+        if(!$id_number){//还没有数据，id_number从管理员默认开始
+            $model_user = D('user');
+            $map_user['_id'] =(int)I('session._id');
+            $id_number = $model_user->getField('default_id_number');
+        }else{
+        $id_number++;
+        }
         $user["vip_name"] = I("post.name");//姓名
-        $user["admin_id"] = I('session._id');//管理员id
+        $user["admin_id"] =(int)I('session._id');//管理员id
         $user["vip_phone"] = I("post.phone");//手机号码
         $user["vip_balance"] = (int)I("post.balance");//余额
         $user["last_consume"] = date("y-m-d H:i:s",time());//最后一次消费时间
+        $user["id_number"] =$id_number; //会员卡号
         $result = $model->add($user);
         if($result){//增加成功
             $this->ajaxReturn(array("status"=>1,
-                "_id"=>$result
+                "id_number"=>$id_number
                 ));
         }else{//增加失败
             $this->ajaxReturn(array("status"=>0));
@@ -109,25 +142,53 @@ class IndexController extends Controller {
         $this->redirect('index');
     }
     public function consume(){
-        if(!IS_AJAX) return 0;//不是ajax提交
+        if(!IS_AJAX || !I('session._id')) return 0;//不是ajax提交
         $modul_admin = D("user");
-        $modul_admin->where('_id='.I("session._id"))->getField("default");
-        $balance = I("post.balance");
-        $user_id = I("post.user_id");
+        $result_default = $modul_admin->where('_id='.I("session._id"))->getField("default");//默认消费
+        $map['id_number'] =(int)I("post.user_id_number");
+        $map['admin_id'] =(int)I("session._id");
         $model = D("vips");
-        $result = $model->where('_id=1')->setInc("vip_balance",10);
-        if($result){//更新成功
-            $this->ajaxReturn(array("status"=>true));
+        $last_consume = date("y-m-d H:i:s",time());
+        $result = $model->where($map)->setDec("vip_balance",$result_default);
+        $model->where($map)->setField("last_consume",$last_consume);
+        $vip_balance = $model->where($map)->getField("vip_balance");
+        if($result["ok"]){//更新成功
+            $this->ajaxReturn(array("status"=>true,
+                "balance"=>$vip_balance,
+                "last_consume"=>$last_consume,
+                ));
         }else{
             $this->ajaxReturn(array("status"=>false));
         }
     }
     public function update(){
-        if(!IS_AJAX) return 0;//不是ajax提交
+        if(!IS_AJAX || !I('session._id')) return 0;//不是ajax提交
+        $map['id_number'] = (int)I('post.user_id_number');//会员卡号
+        $map['admin_id'] = (int)I('session._id');//管理员id号
+        $vips['vip_name'] = I('post.user_name');//姓名
+        $vips['vip_balance'] = (int)I('post.user_balance');//余额
+        $vips['vip_phone'] = I('post.user_phone');//手机
+        $vips['last_consume'] = date("y-m-d H:i:s",time());//最后一次消费时间
+        $model = D("vips");
+        //先判断电话号码别人是在使用
+        $map_repeat['admin_id'] = (int)I('session._id');//管理员id
+        $map_repeat['id_number'] = array('neq',(int)I('post.user_id_number'));//会员卡号
+        $map_repeat['vip_phone'] = I('post.user_phone');//手机号码
+        $exist = $model->where($map_repeat)->getField("id_number");
+        if($exist){//此手机号码已经被使用
+            $this->ajaxReturn(array("status"=>2));
+            return 0;
+        }
+        $result = $model->where($map)->save($vips);
+        if($result["ok"]){//更新成功
+            $this->ajaxReturn(array("status"=>1,"user"=>$vips));
+        }else{
+            $this->ajaxReturn(array("status"=>0));
+        }
         
     }
     public function del(){
-        if(!IS_AJAX) return 0;//不是ajax提交
+        if(!IS_AJAX || !I('session._id')) return 0;//不是ajax提交
         
     }
 }
