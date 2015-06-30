@@ -13,37 +13,49 @@
 
 <!--  <script type="text/javascript" src="__PUBLIC__/js/ie-warning.js"></script>
 -->
+<style type="text/css">
+  .pages a{
+    padding-left: 30px;
+  }
+  .pages span{
+    padding-left: 30px;
+  }
+</style>
 </head>
 <body>
 <include file="Publicmodel:index_logined" />
 <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li ><a href="{:U('logined','','')}">会员消费 <span class="sr-only">(当前)</span></a></li>
-            <li class="active"><a href="{:U('add','','')}">会员新增</a></li>
-            <li><a href="{:U('index/show','','')}">会员一览</a></li>
-            <li ><a href="{:U('index/conf','','')}">设置中心</a></li>
-            
+            <li ><a href="{:U('add','','')}">会员新增</a></li>
+            <li ><a href="{:U('index/show','','')}">会员一览</a></li>
+            <li class="active"><a href="{:U('index/conf','','')}">设置中心</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h4 class="sub-header">这里将新的会员信息录入系统中</h4>
-          <div class="form-inline ones_info" >
-          <input  class="form-control" id="name" placeholder="姓名" maxlength="32" >
-          <input  class="form-control" id="phone_number" placeholder="手机号码" maxlength="11">
-          <input  class="form-control" id="balance" placeholder="金额/元" maxlength="6">
+
+          <h4 class="sub-header">默认消费设置</h4>
+          <div class='underlines'></div>
+          <div class='form-inline ones_info ' >
+              <input  class='form-control id_card' placeholder='默认消费金额' />
+              <button type='submit' class='btn btn-default ' id="sav_def" >保存</button>
           </div>
-          <button type="submit" class="btn btn-default" id="add">增加</button>
-            <div id="hid">
-             <div id="alert_info">
-             </div>
-           </div>
-         </div>
+
+          <h4 class="sub-header">初始会员卡号设置</h4>
+          <div class='underlines'></div>
+          <div class='form-inline ones_info ' >
+              <input  class='form-control id_card' placeholder='初始会员卡号' />
+              <button type='submit' class='btn btn-default ' id="sav_number" >保存</button>
+          </div>
+
+        </div>
       </div>
     </div>
 <script type="text/javascript">
-  var add="{:U('do_add','','')}";
+  var conf="{:U('index/do_default','','')}";
+  var conf_id_number="{:U('index/do_id_number','','')}";
 </script>
 <script type="text/javascript" src="__PUBLIC__/js/Jquery/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>

@@ -39,8 +39,9 @@ $("#consume").click(function(){
 				}
 				for(;data.users[i];i++){
 					$("#hid").append(
+       			 		  "<div class='del_info'>	"+
        			 		  "<div class='underlines'></div>	"+
-       			 		"  <div class='form-inline ones_info "+i+"' > "+
+       			 		"  <div class='form-inline ones_info ' > "+
 				        "  <input  class='form-control id_card' placeholder='会员卡号' value='"+data.users[i].id_number+"' disabled='true' >"+
 				        "  <input  class='form-control name' placeholder='姓名' value='"+data.users[i].vip_name+"' maxlength='32' >"+
 				        "  <input  class='form-control phone_number' placeholder='手机号码' value='"+data.users[i].vip_phone+"' maxlength='11' >"+
@@ -49,7 +50,8 @@ $("#consume").click(function(){
 				        "  </div>"+
 				        "  <button type='submit' class='btn btn-default consume' >消费</button>"+
 				        "  <button type='submit' class='btn btn-default update'>修改</button>"+
-				        "  <button type='submit' class='btn btn-default delete'>删除</button>"
+				        "  <button type='submit' class='btn btn-default delete'>删除</button>"+
+				        "</div>"
        			 		);
 				}
 				//消费
@@ -156,49 +158,32 @@ $("#consume").click(function(){
        			$(".delete").click(function(){
 					btn = $(this);//得到上面的input输入框
 					var_input =btn.prevAll(".ones_info").children("input"); 
+					del_info = btn.parent(".del_info");
 					user_id_number = var_input.eq(0).val();
-					user_name = var_input.eq(1).val();
-					user_phone = var_input.eq(2).val();
+					// user_name = var_input.eq(1).val();
+					// user_phone = var_input.eq(2).val();
 					// user_last_consume = var_input.eq(3).val();
-					user_balance = var_input.eq(4).val();
-					// console.log(user_id_number+"--"+user_name+"--"+user_phone+"--"+user_balance);
-					if(!user_balance || user_balance=='undefined'){//不能为空
-						alert("余额不能为空");
-						return 0;
-					}
-					if(!user_name || user_name=='undefined'){//不能为空
-						alert("姓名不能为空");
-						return 0;
-					}
-					if(!user_phone || user_phone=='undefined'){//不能为空
-						alert("手机号码不能为空");
-						return 0;
-					}
-					btn.text("修改中...");
+					// user_balance = var_input.eq(4).val();
+					// console.log(user_id+"--"+user_name+"--"+user_phone+"--"+user_last_consume+"--"+user_balance);
+					// if(!user_balance || user_balance=='undefined'){//不能为空
+					// 	alert("余额不能为空");
+					// 	return 0;
+					// }
+					btn.text("删除中...");
 					btn.prop("disabled",true);
 					$.ajax({
-						url:update,
+						url:del,
 						type:"post",
-						data:"user_id_number="+user_id_number+"&user_name="+user_name+"&user_balance="+user_balance+"&user_phone="+user_phone,
+						data:"user_id_number="+user_id_number,
 						success:function(data){
 							if(data.status==1){
-								btn.text("修改");
-								btn.prop("disabled",false);
-								console.log(data.user);
-								// var_input.eq(1).val(data.user.vip_name);
-								// var_input.eq(2).val(data.user.vip_phone);
-								// var_input.eq(3).val(data.user.last_consume);
-								// var_input.eq(4).val(data.user.vip_balance);
-								alert("修改成功!");
+								del_info.remove();
+								alert("删除成功!");
 							}else{
-								if(data.status==2){
-									btn.text("修改");
+								if(data.status==0){
+									btn.text("删除");
 									btn.prop("disabled",false);
-									alert("修改失败!此号码已经被别人使用");
-								}else{
-									btn.text("修改");
-									btn.prop("disabled",false);
-									alert("修改失败!请重试");
+									alert("删除失败!");	
 								}
 								
 							}
@@ -269,6 +254,80 @@ $("#add").click(function(){
 		},
 		error:function(){
 				bnt.text("增加");
+				bnt.prop("disabled",false);
+				if(debug)
+				alert("请不要频繁点击");
+		}
+	});
+});
+$("#sav_def").click(function(){
+	bnt =$(this);
+	input = bnt.prev('input');
+	input_value =input.val();
+	reg = /\d{1,11}/;//不能超过11位
+	if(!reg.test(input_value)){
+		alert("格式不正确!");	
+		return 0;
+	} 
+	$.ajax({
+		url:conf,
+		type:"post",
+		data:'input_value='+input_value,
+		success:function(data){
+			if(data.status==1){
+				bnt.text("保存");
+				bnt.prop("disabled",false);
+			 	alert("保存成功");
+			}else{
+				if(data.status==0){
+					bnt.text("保存");
+					bnt.prop("disabled",false);
+				 	alert("保存失败!");
+				}
+			}
+		},
+		error:function(){
+				bnt.text("保存");
+				bnt.prop("disabled",false);
+				if(debug)
+				alert("请不要频繁点击");
+		}
+	});
+});
+$("#sav_number").click(function(){
+	bnt =$(this);
+	input = bnt.prev('input');
+	input_value =input.val();
+	reg = /\d{1,11}/;//不能超过11位
+	if(!reg.test(input_value)){
+		alert("格式不正确!");	
+		return 0;
+	} 
+	$.ajax({
+		url:conf_id_number,
+		type:"post",
+		data:'input_value='+input_value,
+		success:function(data){
+			if(data.status==1){
+				bnt.text("保存");
+				bnt.prop("disabled",false);
+			 	alert("保存成功");
+			}else{
+				if(data.status==2){
+					bnt.text("保存");
+					bnt.prop("disabled",false);
+				 	alert("保存失败!因为已经初始化过会员卡号！");
+				}else{
+					if(data.status==0){
+					bnt.text("保存");
+					bnt.prop("disabled",false);
+				 	alert("保存失败!请重试!");
+					}
+				}
+			}
+		},
+		error:function(){
+				bnt.text("保存");
 				bnt.prop("disabled",false);
 				if(debug)
 				alert("请不要频繁点击");

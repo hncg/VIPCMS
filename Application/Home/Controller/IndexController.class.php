@@ -62,6 +62,20 @@ class IndexController extends Controller {
         echo "网站在测试使用中,使用者应当明白使用风险。";
     }
     public function show(){
+        if(!I('session._id')) return 0;//未登录
+        $model = D('vips');
+        $map['admin_id'] = (int)I('session._id');//管理员id号
+        $page_count=2;//一页显示几行
+        $count = $model->where($map)->count();//得到总行数
+        $page = new \Think\Page($count,$page_count);//TP的Page分页类
+        $page->setConfig('prev','上一页');
+        $page->setConfig('next','下一页');
+        $limit=$page->firstRow.",".$page->listRows;
+        $result = $model->where($map)->limit($limit)->select();
+        $array['users'] = $result;
+        $array['pages'] = $page->show();
+        $this->assign($array);
+        // $this->assign('page',$page->show());
     	$this->display();
     }
     public function find(){
@@ -112,12 +126,12 @@ class IndexController extends Controller {
         }
         $map['admin_id'] =(int)I('session._id'); 
         $id_number =$model->where($map)->order('_id desc')->getField('id_number'); 
-        if(!$id_number){//还没有数据，id_number从管理员默认开始
+        if($id_number==null){//还没有数据，id_number从管理员默认开始
             $model_user = D('user');
             $map_user['_id'] =(int)I('session._id');
-            $id_number = $model_user->getField('default_id_number');
+            $id_number = $model_user->where($map_user)->getField('default_id_number');
         }else{
-        $id_number++;
+            $id_number++;
         }
         $user["vip_name"] = I("post.name");//姓名
         $user["admin_id"] =(int)I('session._id');//管理员id
@@ -125,6 +139,7 @@ class IndexController extends Controller {
         $user["vip_balance"] = (int)I("post.balance");//余额
         $user["last_consume"] = date("y-m-d H:i:s",time());//最后一次消费时间
         $user["id_number"] =$id_number; //会员卡号
+        // var_dump($user);
         $result = $model->add($user);
         if($result){//增加成功
             $this->ajaxReturn(array("status"=>1,
@@ -189,6 +204,47 @@ class IndexController extends Controller {
     }
     public function del(){
         if(!IS_AJAX || !I('session._id')) return 0;//不是ajax提交
-        
+        $map['id_number'] = (int)I('post.user_id_number');//会员卡号
+        $map['admin_id'] = (int)I('session._id');//管理员id号
+        $model = D('vips');
+        $result = $model->where($map)->delete();
+        if($result){//删除成功
+             $this->ajaxReturn(array("status"=>1,"result"=>$result));
+        }else{
+             $this->ajaxReturn(array("status"=>0,"result"=>$result));
+        }
+    }
+    public function conf(){
+        if(!I('session._id')) return 0;//不是ajax提交
+        $this->display();
+    }
+    public function do_default(){
+        if(!IS_AJAX  || !I('session._id')) return 0;//不是ajax提交
+        $user['default'] = (int)I('post.input_value');
+        $model = D('user');
+        $map['_id'] = (int)I('session._id');
+        $result =  $model->where($map)->save($user);
+        if($result){
+            $this->ajaxReturn(array("status"=>1));
+        }else{
+            $this->ajaxReturn(array("status"=>0));
+        }
+    }
+     public function do_id_number(){
+        if(!IS_AJAX  || !I('session._id')) return 0;//不是ajax提交
+        $user['default_id_number'] = (int)I('post.input_value');
+        $model = D('vips');
+        $map['admin_id'] = (int)I('session._id');
+        $exist =  $model->where($map)->getField('vip_phone');
+        if($exist!=null){
+            $this->ajaxReturn(array("status"=>2));
+            return 0;
+        } 
+        $result =  $model->where($map)->save($user);
+        if($result){
+            $this->ajaxReturn(array("status"=>1));
+        }else{
+            $this->ajaxReturn(array("status"=>0));
+        }
     }
 }

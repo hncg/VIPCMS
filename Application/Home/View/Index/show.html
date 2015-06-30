@@ -13,6 +13,14 @@
 
 <!--  <script type="text/javascript" src="__PUBLIC__/js/ie-warning.js"></script>
 -->
+<style type="text/css">
+  .pages a{
+    padding-left: 30px;
+  }
+  .pages span{
+    padding-left: 30px;
+  }
+</style>
 </head>
 <body>
 <include file="Publicmodel:index_logined" />
@@ -22,7 +30,8 @@
           <ul class="nav nav-sidebar">
             <li ><a href="{:U('logined','','')}">会员消费 <span class="sr-only">(当前)</span></a></li>
             <li ><a href="{:U('add','','')}">会员新增</a></li>
-            <li class="active"><a href="{:U('','','')}">会员一览</a></li>
+            <li class="active"><a href="{:U('index/show','','')}">会员一览</a></li>
+            <li ><a href="{:U('index/conf','','')}">设置中心</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -38,15 +47,20 @@
                   <th>余额</th>
                 </tr>
               </thead>
+             
               <tbody>
+               <foreach name='users' item='v'>
                 <tr>
-                  <th>1</th>
-                  <td>陈刚</td>
-                  <td>13873200553</td>
-                  <td>2015-6-20</td>
-                  <td>20.0</td>
+                  <th>{$v.id_number}</th>
+                  <td>{$v.vip_name}</td>
+                  <td>{$v.vip_phone}</td>
+                  <td>{$v.last_consume}</td>
+                  <td>{$v.vip_balance}</td>
                 </tr>
-              
+                 </foreach>
+                 <tr class="pages"  style="text-align:center;" >
+                  <td colspan='5'>{$pages}</td>
+                 </tr>
               </tbody>
             </table>
         </div>
